@@ -10,7 +10,9 @@ target/
 .cursor/
 .vscode/
 .claude/
+<<<<<<< HEAD
 .mcp/
+CLAUDE.md
 
 # Internal design notes are maintained out-of-band (see cuda-oxide-book/ for the published book).
 /docs/
