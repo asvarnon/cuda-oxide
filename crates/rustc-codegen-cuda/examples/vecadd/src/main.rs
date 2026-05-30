@@ -21,7 +21,7 @@
 // No #![cfg_attr(cuda_device, no_std)] - this compiles as ONE unit!
 
 use cuda_core::{CudaContext, DeviceBuffer, LaunchConfig};
-use cuda_device::{DisjointSlice, cuda_module, kernel, thread};
+use cuda_device::{cuda_module, kernel, thread, DisjointSlice};
 
 // =============================================================================
 // KERNEL - This gets compiled to PTX by rustc-codegen-cuda
