@@ -50,7 +50,7 @@ mod kernals {
 pub fn main() {
     println!("=== Reduction Example ===\n");
 
-    //initiallize cuda
+    // initialize cuda
     let ctx = CudaContext::new(0).unwrap();
     let stream = ctx.default_stream();
 
@@ -63,9 +63,7 @@ pub fn main() {
     //only 1 result, so we only need 1 element
     let mut out: DeviceBuffer<f32> = DeviceBuffer::<f32>::zeroed(&stream, 1).unwrap();
 
-    // Launch config for shared memory kernels.
-    // for_num_elems is a convenience function that divides your N across multiple blocks. It doesn't guarantee one block.
-    // need custom config for shared memory kernels and need to ensure on one block.
+    // 1 block of 1024 threads — reduction requires all threads share one TILE
     let cfg = LaunchConfig {
         grid_dim: (1, 1, 1),
         block_dim: (1024, 1, 1),
@@ -77,7 +75,7 @@ pub fn main() {
     let module = kernals::load(&ctx).expect("Failed to load embedded CUDA module");
     module
         .reduction(&stream, cfg, &data_dev, &mut out)
-        .expect("Kernal Launch failed..");
+        .expect("kernel launch failed");
 
     // copy results from VRAM to host.
     let out_host = out.to_host_vec(&stream).unwrap();
